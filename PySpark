@@ -1,0 +1,23 @@
+#Dataframes groupBy or aggregate with a set of functions
+
+#Python
+from pyspark.sql.functions import mean, sum, max, col
+
+df = sc.parallelize([(1, 3.0), (1, 3.0), (2, -5.0)]).toDF(["k", "v"])
+groupBy = ["k"]
+aggregate = ["v"] 
+funs = [mean, sum, max]
+
+exprs = [f(col(c)) for f in funs for c in aggregate]
+
+# or equivalent df.groupby(groupBy).agg(*exprs)
+df.groupby(*groupBy).agg(*exprs)
+
+#Scala
+df.registerTempTable("df")
+val groupExprs = groupBy.mkString(",")
+val aggExprs = aggregate.flatMap(c => operations.map(
+  f => s"$f($c) AS ${c}_${f}")
+).mkString(",")
+
+sqlContext.sql(s"SELECT $groupExprs, $aggExprs FROM df GROUP BY $groupExprs")
