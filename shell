@@ -3,3 +3,8 @@ rsync -ave ssh serveur_ip_ou_nom:/chemin/vers/source /chemin/vers/cible
 l’option -a, mode archivage, permet de copier de manière récursive, de préserver les permissions et de ne pas suivre les liens symboliques
 l’option -v, verbose, affiche la liste des fichiers copiés
 l’option -z, compress, permet de compresser les données avant de les transférer
+
+
+curl http://some.url --output some.file
+
+dig hostName => dns resolution
